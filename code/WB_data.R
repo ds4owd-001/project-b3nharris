@@ -29,14 +29,16 @@ water_no <- waterin |>
 #filter GDP and water for only LIC and only 2000 & 2022-----
 poverty_lic <- poverty_complete |> left_join(countriesin |> 
                               select(iso3c, income_level_iso3c), join_by(iso3c)) |> 
-  filter(income_level_iso3c =="LIC",
-         date %in% c(2000,2022))
+#  filter(income_level_iso3c =="LIC",
+#         date %in% c(2000,2022))
+filter(income_level_iso3c =="LIC")
 
 
 water_lic <- water_no |> left_join(countriesin |> 
                                          select(iso3c, income_level_iso3c), join_by(iso3c)) |> 
-  filter(income_level_iso3c =="LIC",
-         date %in% c(2000,2022))
+#  filter(income_level_iso3c =="LIC",
+#         date %in% c(2000,2022))
+filter(income_level_iso3c =="LIC")
 
 #join tables for plotting-----
 poverty_water <- poverty_lic |> left_join(water_lic  |> 
@@ -44,7 +46,7 @@ poverty_water <- poverty_lic |> left_join(water_lic  |>
   janitor::clean_names()
   
 #plot!-----
-ggplot(data = poverty_water, mapping = aes(x = date,
-                                           y = basw_noaccess)) +
-         geom_line()+
+ggplot(data = poverty_water, mapping = aes(x = date)) +
+         geom_line(aes(y = basw_noaccess, color = "basw_noaccess"))+
+         geom_line(aes(y = si_pov_dday, color= "si+pov_dday")) +
         facet_wrap(~country)
