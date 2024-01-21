@@ -4,49 +4,53 @@ library(imputeTS)
 library(janitor)
 #import WB datasets-----
 ##Poverty headcount @ USD 2.15/ day----
-povertyin <- wb_data(indicator = "SI.POV.DDAY",
-               country = "countries_only",
-               start_date = 2000,
-               end_date = 2022)
+povertyLICin <- wb_data(indicator = "SI.POV.DDAY",
+                     country = "countries_only",
+                     start_date = 2000,
+                     end_date = 2022)
+
+##Poverty headcount @ USD 2.15/ day----
+povertyLMICin <- wb_data(indicator = "SI.POV.LMIC",
+                     country = "countries_only",
+                     start_date = 2000,
+                     end_date = 2022)
 
 ##access to basic water----
 waterin <- wb_data(indicator = "SH.H2O.BASW.ZS",
-                 country = "countries_only",
-                 start_date = 2000,
-                 end_date = 2022)
+                   country = "countries_only",
+                   start_date = 2000,
+                   end_date = 2022)
+
+##access to basic sanitation----
+sanin <- wb_data(indicator = "SH.STA.BASS.ZS",
+                   country = "countries_only",
+                   start_date = 2000,
+                   end_date = 2022)
 
 ##country list for income status----
 countriesin <- wb_countries()
 
-#interpolate TS data for poverty-----
-poverty_complete <- povertyin |> 
+#interpolate TS data for poverty as some years have no values-----
+povertyLICcomplete <- povertyLICin |> 
+  na_kalman()
+povertyLMICcomplete <- povertyLMICin |>
   na_kalman()
 
-#calculate no access to water -----
+#calculate no access to water and sanitation -----
 water_no <- waterin |> 
   mutate(basw_noaccess = 100-SH.H2O.BASW.ZS)
-
-#filter GDP and water for only LIC and only 2000 & 2022-----
-poverty_lic <- poverty_complete |> left_join(countriesin |> 
-                              select(iso3c, income_level_iso3c), join_by(iso3c)) |> 
-#  filter(income_level_iso3c =="LIC",
-#         date %in% c(2000,2022))
-filter(income_level_iso3c =="LIC")
-
-
-water_lic <- water_no |> left_join(countriesin |> 
-                                         select(iso3c, income_level_iso3c), join_by(iso3c)) |> 
-#  filter(income_level_iso3c =="LIC",
-#         date %in% c(2000,2022))
-filter(income_level_iso3c =="LIC")
+san_no <- sanin |> 
+  mutate(bass_noaccess = 100-SH.STA.BASS.ZS)
 
 #join tables for plotting-----
-poverty_water <- poverty_lic |> left_join(water_lic  |> 
-                                        select(iso3c, date, basw_noaccess), join_by(iso3c, date)) |> 
-  janitor::clean_names()
-  
-#plot!-----
-ggplot(data = poverty_water, mapping = aes(x = date)) +
-         geom_line(aes(y = basw_noaccess, color = "basw_noaccess"))+
-         geom_line(aes(y = si_pov_dday, color= "si+pov_dday")) +
-        facet_wrap(~country)
+poverty_water_san <- povertyLICcomplete |>
+  left_join(povertyLMICcomplete  |> 
+              select(iso3c, date, SI.POV.LMIC), join_by(iso3c, date)) |> 
+  left_join(water_no  |> 
+              select(iso3c, date, basw_noaccess), join_by(iso3c, date)) |> 
+  left_join(san_no  |> 
+              select(iso3c, date, bass_noaccess), join_by(iso3c, date)) |>
+  left_join(countriesin |> 
+              select(iso3c, income_level_iso3c), join_by(iso3c))|>
+  janitor::clean_names() |>
+  select(-c(unit, obs_status, footnote, last_updated))

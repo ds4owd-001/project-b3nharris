@@ -1,3 +1,11 @@
+---
+title: Is the WASH sector beating the economic curve?
+subtitle: Capstone project for b3nharris for ds4owd-001
+author: HARRIS Benjamin
+format: html
+editor: visual
+---
+
 # project-b3nharris
 
 Capstone project for b3nharris for ds4owd-001
@@ -10,6 +18,9 @@ Capstone project for b3nharris for ds4owd-001
     -   Water and Sanitation seperately
 -   Country-level analysis to identify positive outliers (countries making faster progress on WASH than poverty)
 -   Analysis on aid flows (OECD) to see if those countries making the best progress are also those receiving most aid per capita (overall and to the WASH sector)
+-   Franceys work on GDP: <https://www.franceys.info/blank-2>
+-   WaterAid Pub on SE Asia and GDP: <https://washmatters.wateraid.org/publications/achieving-total-sanitation-and-hygiene-coverage-within-a-generation-lessons-from-east>
+-   WaterAid: brazil
 
 ## Data Sources
 
@@ -36,3 +47,9 @@ Capstone project for b3nharris for ds4owd-001
 ### Access to Sanitation
 
 TBC
+
+## Import Data
+
+```{r}
+
+```
