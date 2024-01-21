@@ -3,7 +3,12 @@ title: Is the WASH sector beating the economic curve?
 subtitle: Capstone project for b3nharris for ds4owd-001
 author: HARRIS Benjamin
 format: html
+execute: 
+  echo: true
+  warning: false
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 # project-b3nharris
@@ -23,6 +28,10 @@ Capstone project for b3nharris for ds4owd-001
 -   WaterAid: brazil
 
 ## Data Sources
+
+```{r}
+
+```
 
 ### Poverty
 
@@ -49,6 +58,20 @@ Capstone project for b3nharris for ds4owd-001
 TBC
 
 ## Import Data
+
+```{r}
+library(tidyverse)
+library(gt)
+library(wbstats)
+library(imputeTS)
+library(janitor)
+  
+source("WB_data.R")
+```
+
+## Global trends on WASH and poverty
+
+Summarise by year to get global averages
 
 ```{r}
 
