@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -68,24 +102,36 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="project-b3nharris" class="level1">
-<h1>project-b3nharris</h1>
-<p>Capstone project for b3nharris for ds4owd-001</p>
-<section id="is-the-wash-sector-beating-the-economic-curve" class="level2">
-<h2 class="anchored" data-anchor-id="is-the-wash-sector-beating-the-economic-curve">Is the WASH sector beating the economic curve?</h2>
-<p><strong>Concept for the project taken from the blog:</strong> <a href="https://www.ircwash.org/blog/%E2%80%9Ci-am-bored-work%E2%80%9D-washs-mid-life-crisis"><code>https://www.ircwash.org/blog/%E2%80%9Ci-am-bored-work%E2%80%9D-washs-mid-life-crisis</code></a></p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Back in 2018 Stef Smits at IRC published a blog abouts WASH’s mid-life crisis (https://www.ircwash.org/blog/%E2%80%9Ci-am-bored-work%E2%80%9D-washs-mid-life-crisis). This touched on many of the questions that WASH and development professionals always ask themselves: Why are we dealing with the same issues in 2018 that we were discussing in 2005? Why does the pace of change in the WASH sector seemso slow compared to pace of change elsewhere in the world? Do the projects and initiatives we work on make a difference?</p>
+<p>One question which struck me at the time was <em>“Is the reduction of the people without access to drinking water and sanitation not just simply a result of the reduction of poverty?”.</em> The blog presents evidence that the rate of reduction in people without access to improved water and sanitation is <em>less than</em> the rate of reduction of people living below the poverty line.</p>
 <ul>
-<li>Global comparison on progress on poverty (WB data) and WASH (JMP households)
+<li><p>Franceys work on GDP: <a href="https://www.franceys.info/blank-2" class="uri">https://www.franceys.info/blank-2</a></p></li>
+<li><p>WaterAid Pub on SE Asia and GDP: <a href="https://washmatters.wateraid.org/publications/achieving-total-sanitation-and-hygiene-coverage-within-a-generation-lessons-from-east" class="uri">https://washmatters.wateraid.org/publications/achieving-total-sanitation-and-hygiene-coverage-within-a-generation-lessons-from-east</a></p></li>
+<li><p>WaterAid: brazil</p></li>
+</ul>
+<p>In this blog we try to update and extend this analysis. Firstly, by seeing if in 2024 - over halfway through the Sustainable Development Goals - the same situation still holds true? At a global level is progress on WASH lagging behind economic progress. But there’s another question: even if globally progress on WASH paints a dispiriting story are there countries where this isn’t the case? Are there lower- or lower-middle- income countries where progress on access to WASH is happening faster than overall reductions in poverty. If we can identify countries that are beating the economic curve, maybe there is something we can learn from what they are doing?</p>
+</section>
+<section id="methods" class="level1">
+<h1>Methods</h1>
+<p>This blog draws on two data sources:</p>
+<ul>
+<li><p>Data on the proportion of the population living below the poverty line (at $2.15 and $3.65 per day (2017 PPP)from the World Bank Poverty and Inequality Platform [ref].</p></li>
+<li><p>Estimates of the proportion of the population with access to basic water and snaitation services, from the WHO/UNICEF Joint Monitoring Programme [ref].</p></li>
+</ul>
+<p>All data is on a national basis from 2000-2022, was accessed using the World Bank API [ref package]. During data wrangling, the following changes were made:</p>
+<ul>
+<li><p>The World Bank data on population living below the poverty line only includes vlaues for years in which new estimates were made by national governments or the World Bank. To allow for analysis across all years, missing values were imputed using Kalman Filtering [ref TS package].</p></li>
+<li><p>The JMP estimates on the population <em>with</em> access to basic services were transfromed into estimates of the population <em>without</em> basic services.</p></li>
+<li><p>Global comparison on progress on poverty (WB data) and WASH (JMP households)</p>
 <ul>
 <li>Water and Sanitation seperately</li>
 </ul></li>
-<li>Country-level analysis to identify positive outliers (countries making faster progress on WASH than poverty)</li>
-<li>Analysis on aid flows (OECD) to see if those countries making the best progress are also those receiving most aid per capita (overall and to the WASH sector)</li>
-<li>Franceys work on GDP: <a href="https://www.franceys.info/blank-2" class="uri">https://www.franceys.info/blank-2</a></li>
-<li>WaterAid Pub on SE Asia and GDP: <a href="https://washmatters.wateraid.org/publications/achieving-total-sanitation-and-hygiene-coverage-within-a-generation-lessons-from-east" class="uri">https://washmatters.wateraid.org/publications/achieving-total-sanitation-and-hygiene-coverage-within-a-generation-lessons-from-east</a></li>
-<li>WaterAid: brazil</li>
+<li><p>Country-level analysis to identify positive outliers (countries making faster progress on WASH than poverty)</p></li>
+<li><p>Analysis on aid flows (OECD) to see if those countries making the best progress are also those receiving most aid per capita (overall and to the WASH sector)</p></li>
+<li></li>
 </ul>
-</section>
 <section id="data-sources" class="level2">
 <h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
 <section id="poverty" class="level3">
@@ -111,9 +157,80 @@ ul.task-list li input[type="checkbox"] {
 <p>TBC</p>
 </section>
 </section>
-<section id="import-data" class="level2">
-<h2 class="anchored" data-anchor-id="import-data">Import Data</h2>
 </section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<section id="import-and-clean-data" class="level2">
+<h2 class="anchored" data-anchor-id="import-and-clean-data">Import and clean data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wbstats)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(imputeTS)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"WB_data.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="global-trends-on-wash-and-poverty" class="level2">
+<h2 class="anchored" data-anchor-id="global-trends-on-wash-and-poverty">Global trends on WASH and poverty</h2>
+<p>Summarise by year to get global averages</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>global_means <span class="ot">&lt;-</span> poverty_water_san <span class="sc">|&gt;</span> <span class="fu">group_by</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">glob_pov_dday =</span> <span class="fu">mean</span>(si_pov_dday),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">glob_pov_lmic =</span> <span class="fu">mean</span>(si_pov_lmic),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">glob_basw =</span> <span class="fu">mean</span>(basw_noaccess,<span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">glob_bass =</span> <span class="fu">mean</span>(bass_noaccess, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> glob_pov_dday<span class="sc">:</span>glob_bass, <span class="at">names_to =</span> <span class="st">"series"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> global_means)<span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> value,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                          <span class="at">color =</span> series))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="trends-in-lic-and-lmic-countries" class="level2">
+<h2 class="anchored" data-anchor-id="trends-in-lic-and-lmic-countries">Trends in LIC and LMIC countries</h2>
+<section id="lic" class="level3">
+<h3 class="anchored" data-anchor-id="lic">LIC</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> poverty_water_san <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(income_level_iso3c <span class="sc">==</span> <span class="st">"LIC"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(si_pov_dday, basw_noaccess, bass_noaccess), <span class="at">names_to =</span> <span class="st">"series"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>))<span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> value,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">color =</span> series))<span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">facet_wrap</span>(<span class="sc">~</span>country)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="lmic" class="level3">
+<h3 class="anchored" data-anchor-id="lmic">LMIC</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> poverty_water_san <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>         <span class="fu">filter</span>(income_level_iso3c <span class="sc">==</span> <span class="st">"LMC"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(si_pov_lmic, basw_noaccess, bass_noaccess), <span class="at">names_to =</span> <span class="st">"series"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>))<span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> date,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> value,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">color =</span> series))<span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">facet_wrap</span>(<span class="sc">~</span>country)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="conclusions" class="level1">
+<h1>Conclusions</h1>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
 </section>
 
 </main>

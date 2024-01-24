@@ -3,13 +3,13 @@ library(wbstats)
 library(imputeTS)
 library(janitor)
 #import WB datasets-----
-##Poverty headcount @ USD 2.15/ day----
+##Poverty headcount @ USD 2.15 / day----
 povertyLICin <- wb_data(indicator = "SI.POV.DDAY",
                      country = "countries_only",
                      start_date = 2000,
                      end_date = 2022)
 
-##Poverty headcount @ USD 2.15/ day----
+##Poverty headcount @ USD 3.65 / day----
 povertyLMICin <- wb_data(indicator = "SI.POV.LMIC",
                      country = "countries_only",
                      start_date = 2000,
